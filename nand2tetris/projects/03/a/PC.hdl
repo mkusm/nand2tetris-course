@@ -1,0 +1,40 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/PC.hdl
+
+/**
+ * A 16-bit counter with load and reset control bits.
+ * if      (reset[t] == 1) out[t+1] = 0
+ * else if (load[t] == 1)  out[t+1] = in[t]
+ * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
+ * else                    out[t+1] = out[t]
+ */
+
+CHIP PC {
+    IN in[16],load,inc,reset;
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    Mux16 (a=muxload, b=false, sel=reset, out=muxreset);
+    Mux16 (a=muxinc, b=in, sel=load, out=muxload);
+    Inc16 (in=DFFout, out=DFFoutinc);
+    Mux16 (a=DFFout, b=DFFoutin, sel=inc, out=muxinc);
+    DFF (in=muxreset[0], out=DFFout[0], out=out[0]);
+    DFF (in=muxreset[1], out=DFFout[1], out=out[1]);
+    DFF (in=muxreset[2], out=DFFout[2], out=out[2]);
+    DFF (in=muxreset[3], out=DFFout[3], out=out[3]);
+    DFF (in=muxreset[4], out=DFFout[4], out=out[4]);
+    DFF (in=muxreset[5], out=DFFout[5], out=out[5]);
+    DFF (in=muxreset[6], out=DFFout[6], out=out[6]);
+    DFF (in=muxreset[7], out=DFFout[7], out=out[7]);
+    DFF (in=muxreset[8], out=DFFout[8], out=out[8]);
+    DFF (in=muxreset[9], out=DFFout[9], out=out[9]);
+    DFF (in=muxreset[10], out=DFFout[10], out=out[10]);
+    DFF (in=muxreset[11], out=DFFout[11], out=out[11]);
+    DFF (in=muxreset[12], out=DFFout[12], out=out[12]);
+    DFF (in=muxreset[13], out=DFFout[13], out=out[13]);
+    DFF (in=muxreset[14], out=DFFout[14], out=out[14]);
+    DFF (in=muxreset[15], out=DFFout[15], out=out[15]);
+}
