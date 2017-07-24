@@ -1,4 +1,5 @@
 nand2tetris/projects/00
+nand2tetris/projects/04/mult/mult.asm
 nand2tetris/tools
 nand2tetris/**/*.tst
 nand2tetris/**/*.cmp

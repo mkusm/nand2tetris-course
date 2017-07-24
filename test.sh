@@ -49,11 +49,14 @@ if [[ $PROJECT =~ ^(4|all)$ ]]; then
 		./nand2tetris/tools/Assembler.sh $ASMFILE
 	done
 
+	FILE1="nand2tetris/projects/04/mult/Mult.tst"
+	FILE2="nand2tetris/projects/04/fill/FillAutomatic.tst"
+
 	echo ""
-	for TEST in nand2tetris/projects/04/*/*.tst
-	do
-		echo $TEST
-		./nand2tetris/tools/CPUEmulator.sh $TEST
-		echo ""
-	done
+	echo $FILE1
+	./nand2tetris/tools/CPUEmulator.sh $FILE1
+	echo ""
+	echo $FILE2
+	./nand2tetris/tools/CPUEmulator.sh $FILE2
+	echo ""
 fi
