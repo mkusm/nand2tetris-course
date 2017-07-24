@@ -3,3 +3,4 @@ nand2tetris/tools
 nand2tetris/**/*.tst
 nand2tetris/**/*.cmp
 nand2tetris/**/*.out
+nand2tetris/**/*.hack
