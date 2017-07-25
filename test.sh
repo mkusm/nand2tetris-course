@@ -1,51 +1,49 @@
+#!/bin/bash
 
 PROJECT=$1
 if [[ $# -eq 0 ]]; then
 	PROJECT="all"
 fi
 
-if [[ $PROJECT =~ ^(1|all)$ ]]; then
-	echo "-- Project 1 --"
-	echo ""
+function test_project_hdl {
+	if [[ $PROJECT =~ ^($1|all)$ ]]; then
+		echo "-- Project $1 --"
+		echo ""
+		for TEST in nand2tetris/projects/0$1/$2*.tst; do
+			echo $TEST
+			./nand2tetris/tools/HardwareSimulator.sh $TEST
+			echo ""
+		done
+	fi
+}
 
-	for TEST in nand2tetris/projects/01/*.tst
-	do
-		echo $TEST
-		./nand2tetris/tools/HardwareSimulator.sh $TEST
+function test_files_hdl {
+	for FILE; do
+		echo $FILE
+		./nand2tetris/tools/HardwareSimulator.sh $FILE
 		echo ""
 	done
-fi
+}
 
-if [[ $PROJECT =~ ^(2|all)$ ]]; then
-	echo "-- Project 2 --"
-	echo ""
-
-	for TEST in nand2tetris/projects/02/*.tst
-	do
-		echo $TEST
-		./nand2tetris/tools/HardwareSimulator.sh $TEST
+function test_files_hack {
+	for FILE; do
+		echo $FILE
+		./nand2tetris/tools/CPUEmulator.sh $FILE
 		echo ""
 	done
-fi
+}
 
-if [[ $PROJECT =~ ^(3|all)$ ]]; then
-	echo "-- Project 3 --"
-	echo ""
+test_project_hdl 1
 
-	for TEST in nand2tetris/projects/03/*/*.tst
-	do
-		echo $TEST
-		./nand2tetris/tools/HardwareSimulator.sh $TEST
-		echo ""
-	done
-fi
+test_project_hdl 2
+
+test_project_hdl 3 "*/"
 
 if [[ $PROJECT =~ ^(4|all)$ ]]; then
 	echo "-- Project 4 --"
 	echo ""
 
-	for ASMFILE in nand2tetris/projects/04/*/*.asm
-	do
+	for ASMFILE in nand2tetris/projects/04/*/*.asm; do
 		./nand2tetris/tools/Assembler.sh $ASMFILE
 	done
 
@@ -53,10 +51,17 @@ if [[ $PROJECT =~ ^(4|all)$ ]]; then
 	FILE2="nand2tetris/projects/04/fill/FillAutomatic.tst"
 
 	echo ""
-	echo $FILE1
-	./nand2tetris/tools/CPUEmulator.sh $FILE1
+	test_files_hack $FILE1 $FILE2
+fi
+
+if [[ $PROJECT =~ ^(5|all)$ ]]; then
+	echo "-- Project 5 --"
 	echo ""
-	echo $FILE2
-	./nand2tetris/tools/CPUEmulator.sh $FILE2
-	echo ""
+	for TEST in nand2tetris/projects/05/*.tst; do
+		if [[ $TEST != *Computer* ]] && [[ $TEST != *Mem* ]]; then
+			echo $TEST
+			./nand2tetris/tools/HardwareSimulator.sh $TEST
+			echo ""
+		fi
+	done
 fi
