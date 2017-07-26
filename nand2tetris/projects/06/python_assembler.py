@@ -78,6 +78,7 @@ def calculate_dest(dest):
     result = "".join(result)
     return result
 
+
 def calculate_jump(jump):
     jumps = (None, 'JGT', 'JEQ', 'JGE', 'JLT', 'JNE', 'JLE', 'JMP')
     for index, jump_expected in enumerate(jumps):
@@ -85,6 +86,7 @@ def calculate_jump(jump):
             return format(index, '03b')
     else:
         raise ValueError(f"Jump {jump} is not valid")
+
 
 def parse_C_instruction(line):
     assert len(line) > 0
@@ -103,6 +105,7 @@ def parse_line(line):
         return parse_A_instruction(line)
     else:
         return parse_C_instruction(line)
+
 
 def check_arguments():
     if not len(sys.argv) == 1:
@@ -124,6 +127,7 @@ def check_arguments():
     if os.path.getsize(asm_file_path) == 0:
         raise ValueError("File ", sys.argv, " is empty")
 
+
 def parse_asm_file(asm_file_path):
     with open(asm_file_path) as asmfile:
         asm_file_content = asmfile.read()
@@ -133,14 +137,16 @@ def parse_asm_file(asm_file_path):
     for line in asm_file_lines:
         if line:
             parsed.append(parse_line(line))
-    parsed = "\n".join(parsed)
+    parsed = ''.join(parsed)
     return parsed
+
 
 def get_asm_and_hack_files_paths():
     asm_file_path = os.path.abspath(sys.argv[0])
     asm_file_no_extension, _ = (os.path.splitext(asm_file_path))
     hack_file_path = asm_file_no_extension + '.hack'
     return asm_file_path, hack_file_path
+
 
 def assemble():
     check_arguments()

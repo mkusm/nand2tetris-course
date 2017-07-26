@@ -201,7 +201,7 @@ class TestFileAssembly(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmpdirname:
             content = '@1\n\n\n@1\n\n@1\n'
             parsed_line = ('0' * 15) + '1'
-            expected = parsed_line + '\n' + parsed_line + '\n' + parsed_line
+            expected = parsed_line * 3
             self._assemble_and_test(tmpdirname, content, expected)
 
     def test_medium_file(self):
@@ -220,15 +220,15 @@ class TestFileAssembly(unittest.TestCase):
             '0;JMP\n'
         )
         expected = (
-            '0000' '0000' '0000' '0001\n'
-            '111' '0110000' '010' '000\n'
-            '0000' '0000' '0000' '1100\n'
-            '111' '0001100' '001' '000\n'
-            '111' '0110000' '010' '000\n'
-            '0000' '0000' '1000' '0000\n'
-            '111' '0110000' '010' '000\n'
-            '111' '1010011' '111' '000\n'
-            '0000' '0000' '0000' '0101\n'
+            '0000' '0000' '0000' '0001'
+            '111' '0110000' '010' '000'
+            '0000' '0000' '0000' '1100'
+            '111' '0001100' '001' '000'
+            '111' '0110000' '010' '000'
+            '0000' '0000' '1000' '0000'
+            '111' '0110000' '010' '000'
+            '111' '1010011' '111' '000'
+            '0000' '0000' '0000' '0101'
             '111' '0101010' '000' '111'
         )
         with tempfile.TemporaryDirectory() as tmpdirname:
