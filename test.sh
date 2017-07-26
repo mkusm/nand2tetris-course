@@ -43,8 +43,8 @@ if [[ $PROJECT =~ ^(4|all)$ ]]; then
 	echo "-- Project 4 --"
 	echo ""
 
-	for ASMFILE in nand2tetris/projects/04/*/*.asm; do
-		./nand2tetris/tools/Assembler.sh $ASMFILE
+	for ASM in nand2tetris/projects/04/*/*.asm; do
+		./nand2tetris/tools/Assembler.sh $ASM
 	done
 
 	FILE1="nand2tetris/projects/04/mult/Mult.tst"
@@ -63,5 +63,35 @@ if [[ $PROJECT =~ ^(5|all)$ ]]; then
 			./nand2tetris/tools/HardwareSimulator.sh $TEST
 			echo ""
 		fi
+	done
+fi
+
+
+if [[ $PROJECT =~ ^(6|all)$ ]]; then
+	SCRIPT="nand2tetris/projects/06/python_assembler.py"
+
+	for ASM in nand2tetris/projects/06/*/*.asm; do
+
+		if hash python3.6 2>/dev/null; then
+			python3.6 $SCRIPT $ASM
+		else
+			python3 $SCRIPT $ASM
+		fi
+		HACK1="${ASM%.asm}.hack"
+		HACK2="${ASM%.asm}2.hack"
+		mv $HACK1 $HACK2
+
+		./nand2tetris/tools/Assembler.sh $ASM
+
+		diff=$(diff $HACK1 $HACK2)
+		if [[ $? != 0 ]]; then
+			echo "Diff failed."
+		elif [[ $diff ]]; then
+			echo "$HACK1 comparison FAILED"
+		else
+			echo "$HACK1 comparison successful"
+		fi
+
+		echo ""
 	done
 fi
